@@ -1,4 +1,4 @@
-name: lede k2p 
+name: op-dev-master k2p 
 on:
   schedule:
     - cron:  0 20 1 * *
@@ -24,41 +24,43 @@ jobs:
         sudo -E apt-get -yqq autoremove --purge
         sudo -E apt-get -qq clean
 
-    - name: Download - lede source download
+    - name: Download - op-dev-master source download
       run: |
         ls -al
-        rm -rf lede
-        git clone https://github.com/coolsnowwolf/lede
+        rm -rf op-dev-master
+        git clone -b dev-master https://github.com/Lienol/openwrt op-dev-master
         
-    - name: Update - lede source update and install 
+        
+    - name: Update - op-dev-master source update and install 
       run: |
-        cd lede
+        cd op-dev-master
+        ./scripts/feeds clean
         ./scripts/feeds update -a
         ./scripts/feeds install -a
 
 
     - name: Config -  k2p build config
       run: |
-        cp .config lede/
+        cp .config op-dev-master/
 
-    - name: Download - lede build dependencies
+    - name: Download - op-dev-master build dependencies
       run: |
-        cd lede
+        cd op-dev-master
         make -j8 download V=s
 
     - name: Build - make lede source
       run: |
-        cd lede
+        cd op-dev-master
         make -j1 V=s
 
     - name: Remove - delete packages files
       run: |
-        cd lede/bin/targets/ramips/mt7621/
+        cd op-dev-master/bin/targets/ramips/mt7621/
         rm -rf packages/
         ls -hl
 
     - name: Upload - push to artifact file
       uses: actions/upload-artifact@v1
       with:
-        name: lede-k2p
-        path: lede/bin/targets/ramips/mt7621/
+        name: lienol-k2p
+        path: op-dev-master/bin/targets/ramips/mt7621/
