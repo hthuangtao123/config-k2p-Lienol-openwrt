@@ -27,40 +27,38 @@ jobs:
     - name: Download - op-dev-master source download
       run: |
         ls -al
-        rm -rf op-dev-master
-        git clone -b dev-master https://github.com/Lienol/openwrt op-dev-master
-        
+        rm -rf openwrt
+        git clone -b main --single-branch https://github.com/Lienol/openwrt openwrt
         
     - name: Update - op-dev-master source update and install 
       run: |
-        cd op-dev-master
+        cd openwrt
         ./scripts/feeds clean
         ./scripts/feeds update -a
         ./scripts/feeds install -a
-
+         ./scripts/feeds update -a
+        ./scripts/feeds install -a
+         ./scripts/feeds update -a
+        ./scripts/feeds install -a
+        
 
     - name: Config -  k2p build config
       run: |
-        cp .config op-dev-master/
+        cp .config openwrt/
 
-    - name: Download - op-dev-master build dependencies
+    - name: Download - openwrtr build dependencies
       run: |
-        cd op-dev-master
+        cd openwrt
         make -j8 download V=s
 
     - name: Build - make lede source
       run: |
-        cd op-dev-master
+        cd openwrt
         make -j1 V=s
 
-    - name: Remove - delete packages files
-      run: |
-        cd op-dev-master/bin/targets/ramips/mt7621/
-        rm -rf packages/
-        ls -hl
 
     - name: Upload - push to artifact file
       uses: actions/upload-artifact@v1
       with:
         name: lienol-k2p
-        path: op-dev-master/bin/targets/ramips/mt7621/
+        path: openwrt/bin/targets/ramips/mt7621/
