@@ -1,4 +1,4 @@
-name: op-dev-master k2p 
+name: Lienol k2p 
 on:
   schedule:
     - cron:  0 20 1 * *
