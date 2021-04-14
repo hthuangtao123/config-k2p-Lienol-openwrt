@@ -24,34 +24,44 @@ jobs:
         sudo -E apt-get -yqq autoremove --purge
         sudo -E apt-get -qq clean
 
-    - name: Download - op-dev-master source download
+    - name: Download - openwrt source download
       run: |
         ls -al
         rm -rf openwrt
         git clone -b main --single-branch https://github.com/Lienol/openwrt openwrt
         
-    - name: Update - op-dev-master source update and install 
+    - name: Update - openwrt source update and install 1
       run: |
         cd openwrt
         ./scripts/feeds clean
         ./scripts/feeds update -a
         ./scripts/feeds install -a
-         ./scripts/feeds update -a
-        ./scripts/feeds install -a
-         ./scripts/feeds update -a
-        ./scripts/feeds install -a
         
+      - name: Update - openwrt source update and install 2
+      run: |
+        cd openwrt
+        ./scripts/feeds update -a
+        ./scripts/feeds install -a
 
-    - name: Config -  k2p build config
+      - name: Update - openwrt source update and install 3
+      run: |
+        cd openwrt
+        ./scripts/feeds update -a
+        ./scripts/feeds install -a
+
+    - name: Config copy -  k2p build config
       run: |
         cp .config openwrt/
+        ls -al
+        cd openwrt/
+        ls -al
 
-    - name: Download - openwrtr build dependencies
+    - name: Download - 下载dl库
       run: |
         cd openwrt
         make -j8 download V=s
 
-    - name: Build - make lede source
+    - name: Build - 编译你固件
       run: |
         cd openwrt
         make -j1 V=s
@@ -61,4 +71,4 @@ jobs:
       uses: actions/upload-artifact@v1
       with:
         name: lienol-k2p
-        path: openwrt/bin/targets/
+        path: openwrt/bin/
