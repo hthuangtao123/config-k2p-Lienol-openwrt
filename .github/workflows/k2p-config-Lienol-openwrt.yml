@@ -43,7 +43,7 @@ jobs:
         ./scripts/feeds update -a
         ./scripts/feeds install -a
 
-      - name: Update - openwrt source update and install 3
+    - name: Update - openwrt source update and install 3
       run: |
         cd openwrt
         ./scripts/feeds update -a
