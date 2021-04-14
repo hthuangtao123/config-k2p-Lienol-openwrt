@@ -51,7 +51,9 @@ jobs:
 
     - name: Config copy -  k2p build config
       run: |
+        
         cp .config openwrt/
+        make defconfig
         ls -al
         cd openwrt/
         ls -al
