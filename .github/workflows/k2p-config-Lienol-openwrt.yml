@@ -36,7 +36,7 @@ jobs:
         ./scripts/feeds clean
         ./scripts/feeds update -a
         ./scripts/feeds install -a
-        
+
       - name: Update - openwrt source update and install 2
       run: |
         cd openwrt
