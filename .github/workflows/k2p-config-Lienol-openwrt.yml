@@ -53,9 +53,10 @@ jobs:
       run: |
         
         cp .config openwrt/
-        make defconfig
+        
         ls -al
         cd openwrt/
+        make defconfig
         ls -al
 
     - name: Download - 下载dl库
