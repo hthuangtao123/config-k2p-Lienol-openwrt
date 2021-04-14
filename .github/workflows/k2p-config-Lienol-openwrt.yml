@@ -61,4 +61,4 @@ jobs:
       uses: actions/upload-artifact@v1
       with:
         name: lienol-k2p
-        path: openwrt/bin/targets/ramips/mt7621/
+        path: openwrt/bin/targets/
